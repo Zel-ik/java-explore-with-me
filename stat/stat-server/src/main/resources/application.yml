@@ -11,11 +11,11 @@ Spring:
     init:
       mode: always
 
-  #datasource:
-  #  url: jdbc:postgresql://localhost:5432/stats-db
-  #  driver-class-name: org.postgresql.Driver
-  #  username: postgres
-  #  password: root
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stats-db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
 
 logging:
   level:
