@@ -50,6 +50,7 @@ public class EventServiceImpl implements EventService {
         if (eventDto.getParticipantLimit() == null) eventDto.setParticipantLimit(0);
         Event event = EventMapper.mapToModel(eventDto, category, userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("Пользователь с id-" + userId + " не найден")));
+        event.setRequestModeration(eventDto.isRequestModeration());
         event.setCreationOn(LocalDateTime.now());
         event.setState(EventState.PENDING);
         return EventMapper.mapToFullDto(eventRepository.save(event), 0);
@@ -223,6 +224,7 @@ public class EventServiceImpl implements EventService {
         if (updateDto.getTitle() != null && !updateDto.getTitle().equals(updateEvent.getTitle())) {
             updateEvent.setTitle(updateDto.getTitle());
         }
+        if(updateDto.isPaid())updateEvent.setPaid(updateDto.isPaid());
         Event event = eventRepository.save(updateEvent);
         return EventMapper.mapToFullDto(event,
                 participationRepository.getConfirmedRequests(event.getId()));
