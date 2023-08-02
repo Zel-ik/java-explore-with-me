@@ -37,7 +37,7 @@ public class EventNewDto {
 
     @PositiveOrZero
     Integer participantLimit;
-
+// не стал менять на примитив так как выскакивает много проблем с переписыванием кода
     Boolean requestModeration;
 
     @Size(min = 3, max = 120)
