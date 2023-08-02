@@ -3,7 +3,6 @@ package ru.main_service.model.dto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
