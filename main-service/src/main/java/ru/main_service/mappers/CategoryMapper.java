@@ -2,11 +2,9 @@ package ru.main_service.mappers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import ru.main_service.model.Category;
 import ru.main_service.model.dto.CategoryDto;
 
-@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 
 public final class CategoryMapper {

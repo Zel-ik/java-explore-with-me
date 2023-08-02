@@ -1,6 +1,5 @@
 package ru.main_service.mappers;
 
-import lombok.extern.slf4j.Slf4j;
 import ru.main_service.model.Event;
 import ru.main_service.model.User;
 import ru.main_service.model.dto.EventFullDto;
@@ -10,7 +9,6 @@ import ru.main_service.model.Category;
 
 import java.time.format.DateTimeFormatter;
 
-@Slf4j
 public class EventMapper {
 
     public static Event mapToModel(EventNewDto eventDto, Category category, User initiator) {
@@ -21,9 +19,9 @@ public class EventMapper {
         event.setEventDate(eventDto.getEventDate());
         event.setLatitude(eventDto.getLocation().getLat());
         event.setLongitude(eventDto.getLocation().getLon());
-        event.setPaid(eventDto.getPaid());
+        event.setPaid(eventDto.isPaid());
         event.setParticipantLimit(eventDto.getParticipantLimit());
-        event.setRequestModeration(eventDto.getRequestModeration());
+        event.setRequestModeration(eventDto.isRequestModeration());
         event.setTitle(eventDto.getTitle());
         event.setInitiator(initiator);
         return event;
@@ -48,10 +46,10 @@ public class EventMapper {
         eventFullDto.setDescription(event.getDescription());
         eventFullDto.setEventDate(event.getEventDate().format(formatter));
         eventFullDto.setInitiator(UserMapper.mapToDto(event.getInitiator()));
-        eventFullDto.setPaid(event.getPaid());
+        eventFullDto.setPaid(event.isPaid());
         eventFullDto.setParticipantLimit(event.getParticipantLimit());
         eventFullDto.setPublishedOn(event.getPublishedOn());
-        eventFullDto.setRequestModeration(event.getRequestModeration());
+        eventFullDto.setRequestModeration(event.isRequestModeration());
         eventFullDto.setState(event.getState().name());
         eventFullDto.setTitle(event.getTitle());
         eventFullDto.setViews(event.getViews());
@@ -68,7 +66,7 @@ public class EventMapper {
         eventDto.setCategory(CategoryMapper.mapToDto(event.getCategory()));
         eventDto.setConfirmedRequests(confirmedRequest);
         eventDto.setInitiator(UserMapper.mapToDto(event.getInitiator()));
-        eventDto.setPaid(event.getPaid());
+        eventDto.setPaid(event.isPaid());
         eventDto.setViews(event.getViews());
         eventDto.setTitle(event.getTitle());
         return eventDto;
@@ -83,7 +81,7 @@ public class EventMapper {
         eventDto.setCategory(CategoryMapper.mapToDto(event.getCategory()));
         eventDto.setConfirmedRequests(null);
         eventDto.setInitiator(UserMapper.mapToDto(event.getInitiator()));
-        eventDto.setPaid(event.getPaid());
+        eventDto.setPaid(event.isPaid());
         eventDto.setViews(event.getViews());
         eventDto.setTitle(event.getTitle());
         return eventDto;

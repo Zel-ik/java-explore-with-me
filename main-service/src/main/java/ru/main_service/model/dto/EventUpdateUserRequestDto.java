@@ -28,11 +28,11 @@ public class EventUpdateUserRequestDto {
 
     EventNewDto.Location location;
 
-    Boolean paid;
+    boolean paid;
 
     Integer participantLimit;
 
-    Boolean requestModeration;
+    boolean requestModeration;
 
     StateAction stateAction;
 

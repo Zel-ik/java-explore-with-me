@@ -3,7 +3,7 @@ package ru.main_service.model.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,9 +15,9 @@ public class CompilationDto {
 
     Long id;
 
-    List<EventShortDto> events;
+    Set<EventShortDto> events;
 
-    Boolean pinned;
+    boolean pinned;
 
     String title;
 

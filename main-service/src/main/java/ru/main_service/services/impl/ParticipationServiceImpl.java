@@ -53,7 +53,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         ParticipationRequestDto participationRequestDto = new ParticipationRequestDto();
         participationRequestDto.setRequester(userId);
         participationRequestDto.setEvent(eventId);
-        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
+        if (!event.isRequestModeration() || event.getParticipantLimit() == 0) {
             participationRequestDto.setStatus(String.valueOf(RequestStatus.CONFIRMED));
         } else {
             participationRequestDto.setStatus(String.valueOf(RequestStatus.PENDING));

@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import ru.main_service.model.dto.EventState;
 
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,13 +39,14 @@ public class Event {
     @JoinColumn(name = "initiator_id")
     User initiator;
 
-    Boolean paid;
+    boolean paid;
 
+    @PositiveOrZero
     Integer participantLimit;
 
     LocalDateTime publishedOn;
 
-    Boolean requestModeration;
+    boolean requestModeration;
 
     @Enumerated(EnumType.STRING)
     EventState state;

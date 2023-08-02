@@ -47,9 +47,7 @@ public class EventServiceImpl implements EventService {
         if (eventDto.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
             throw new RequestException("Время начала события не может быть раньше, чем через 2 часа");
         }
-        if (eventDto.getPaid() == null) eventDto.setPaid(false);
         if (eventDto.getParticipantLimit() == null) eventDto.setParticipantLimit(0);
-        if (eventDto.getRequestModeration() == null) eventDto.setRequestModeration(true);
         Event event = EventMapper.mapToModel(eventDto, category, userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("Пользователь с id-" + userId + " не найден")));
         event.setCreationOn(LocalDateTime.now());
@@ -110,8 +108,8 @@ public class EventServiceImpl implements EventService {
         if (eventDto.getEventDate() != null && !eventDto.getEventDate().equals(adminUpdateEvent.getEventDate())) {
             adminUpdateEvent.setEventDate(eventDto.getEventDate());
         }
-        if (eventDto.getPaid() != null && eventDto.getPaid() != (adminUpdateEvent.getPaid())) {
-            adminUpdateEvent.setPaid(eventDto.getPaid());
+        if (eventDto.isPaid() != (adminUpdateEvent.isPaid())) {
+            adminUpdateEvent.setPaid(eventDto.isPaid());
         }
         if (eventDto.getParticipantLimit() != null && !eventDto.getParticipantLimit().equals(adminUpdateEvent
                 .getParticipantLimit())) {
@@ -215,8 +213,8 @@ public class EventServiceImpl implements EventService {
                 .getEventDate())) {
             updateEvent.setEventDate(updateDto.getEventDate());
         }
-        if (updateDto.getPaid() != null && updateDto.getPaid() != (updateEvent.getPaid())) {
-            updateEvent.setPaid(updateDto.getPaid());
+        if (updateDto.isPaid() != (updateEvent.isPaid())) {
+            updateEvent.setPaid(updateDto.isPaid());
         }
         if (updateDto.getParticipantLimit() != null && !updateDto.getParticipantLimit()
                 .equals(updateEvent.getParticipantLimit())) {
@@ -251,7 +249,7 @@ public class EventServiceImpl implements EventService {
                 new NotFoundException("Событие с id-" + eventId + " не найдено"));
         if (!Objects.equals(userId, event.getInitiator().getId()))
             throw new EventException("Пользователь не является инициатором текущего события");
-        if (event.getParticipantLimit() == 0 || (!event.getRequestModeration()))
+        if (event.getParticipantLimit() == 0 || (!event.isRequestModeration()))
             throw new EventException("Одобрение заявок данного события не требуется");
         if (participationRepository.getConfirmedRequests(eventId) >= event.getParticipantLimit())
             throw new DataIntegrityViolationException("Лимит по заявкам исчерпан");

@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -32,11 +33,12 @@ public class EventNewDto {
     @NotNull
     Location location;
 
-    Boolean paid;
+    boolean paid;
 
+    @PositiveOrZero
     Integer participantLimit;
 
-    Boolean requestModeration;
+    boolean requestModeration;
 
     @Size(min = 3, max = 120)
     String title;

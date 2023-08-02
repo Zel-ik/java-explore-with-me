@@ -21,7 +21,9 @@ import ru.main_service.services.CompilationService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +39,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto createCompilation(CompilationNewDto compilationNewDto) {
         Compilation compilationNew = CompilationMapper.mapToModel(compilationNewDto);
-        List<Event> events = new ArrayList<>();
+        Set<Event> events = new HashSet<>();
         if (compilationNewDto.getEvents() != null) {
             for (Long eventId : compilationNewDto.getEvents()) {
                 if (eventRepository.findById(eventId).isPresent()) {
@@ -46,12 +48,11 @@ public class CompilationServiceImpl implements CompilationService {
             }
         }
         compilationNew.setEvents(events);
-        if (compilationNewDto.getPinned() == null) compilationNew.setPinned(false);
         Compilation compilation = compilationRepository.save(compilationNew);
-        List<EventShortDto> shortEvents = compilation.getEvents()
+        Set<EventShortDto> shortEvents = compilation.getEvents()
                 .stream().map(event -> EventMapper
                         .mapToShortDto(event, participationRepository.getConfirmedRequests(event.getId())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return CompilationMapper.mapToDto(compilation, shortEvents);
     }
 
@@ -72,10 +73,10 @@ public class CompilationServiceImpl implements CompilationService {
             compilations.addAll(compilationRepository.findAll(pageable).getContent());
             for (Compilation comp : compilations) {
                 List<Event> events = new ArrayList<>(comp.getEvents());
-                List<EventShortDto> shortEvents = events
+                Set<EventShortDto> shortEvents = events
                         .stream().map(event -> EventMapper
                                 .mapToShortDto(event, participationRepository.getConfirmedRequests(event.getId())))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toSet());
                 compilationsDto.add(CompilationMapper.mapToDto(comp, shortEvents));
             }
             return compilationsDto;
@@ -83,10 +84,10 @@ public class CompilationServiceImpl implements CompilationService {
         compilations.addAll(compilationRepository.findAllByPinned(pinned, pageable));
         for (Compilation comp : compilations) {
             List<Event> events = new ArrayList<>(comp.getEvents());
-            List<EventShortDto> shortEvents = events
+            Set<EventShortDto> shortEvents = events
                     .stream().map(event -> EventMapper
                             .mapToShortDto(event, participationRepository.getConfirmedRequests(event.getId())))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             compilationsDto.add(CompilationMapper.mapToDto(comp, shortEvents));
         }
         return compilationsDto;
@@ -96,11 +97,11 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto getCompilation(Long id) {
         Compilation compilation = compilationRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Подборка с id-" + id + " не найдена"));
-        List<Event> events = compilation.getEvents();
-        List<EventShortDto> shortEvents = events
+        Set<Event> events = compilation.getEvents();
+        Set<EventShortDto> shortEvents = events
                 .stream().map(event -> EventMapper
                         .mapToShortDto(event, participationRepository.getConfirmedRequests(event.getId())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return CompilationMapper.mapToDto(compilation, shortEvents);
     }
 
@@ -109,7 +110,7 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto updateCompilation(Long id, CompilationUpdateDto updateDto) {
         Compilation compilation = compilationRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Подборка событие с id-" + id + " не найдена"));
-        List<Event> eventsOld = compilation.getEvents();
+        Set<Event> eventsOld = compilation.getEvents();
         List<Event> eventsNew = new ArrayList<>();
         if (updateDto.getEvents() != null) {
             for (Long eventId : updateDto.getEvents()) {
@@ -119,18 +120,13 @@ public class CompilationServiceImpl implements CompilationService {
             }
         }
         eventsOld.addAll(eventsNew);
-        List<Event> eventsActual = eventsOld
-                .stream()
-                .distinct()
-                .collect(Collectors.toList());
-        compilation.setEvents(eventsActual);
+        compilation.setEvents(eventsOld);
         if (updateDto.getTitle() != null) compilation.setTitle(updateDto.getTitle());
-        if (updateDto.getPinned() != null) compilation.setPinned(updateDto.getPinned());
         Compilation compilationUpdate = compilationRepository.save(compilation);
-        List<EventShortDto> shortEvents = compilationUpdate.getEvents()
+        Set<EventShortDto> shortEvents = compilationUpdate.getEvents()
                 .stream().map(event -> EventMapper
                         .mapToShortDto(event, participationRepository.getConfirmedRequests(event.getId())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return CompilationMapper.mapToDto(compilationUpdate, shortEvents);
     }
 

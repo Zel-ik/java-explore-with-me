@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,13 +29,14 @@ public class EventFullDto {
 
     Location location;
 
-    Boolean paid;
+    boolean paid;
 
+    @PositiveOrZero
     Integer participantLimit;
 
     LocalDateTime publishedOn;
 
-    Boolean requestModeration;
+    boolean requestModeration;
 
     String state;
 
