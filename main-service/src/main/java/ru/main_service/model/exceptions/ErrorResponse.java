@@ -1,4 +1,4 @@
-package ru.main_service.exceptions;
+package ru.main_service.model.exceptions;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

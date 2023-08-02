@@ -14,9 +14,9 @@ import ru.main_service.repositories.CategoryRepository;
 import ru.main_service.repositories.EventRepository;
 import ru.main_service.repositories.ParticipationRepository;
 import ru.main_service.repositories.UserRepository;
-import ru.main_service.exceptions.EventException;
-import ru.main_service.exceptions.NotFoundException;
-import ru.main_service.exceptions.RequestException;
+import ru.main_service.model.exceptions.EventException;
+import ru.main_service.model.exceptions.NotFoundException;
+import ru.main_service.model.exceptions.RequestException;
 import ru.main_service.mappers.EventMapper;
 import ru.main_service.mappers.ParticipationMapper;
 import ru.main_service.model.Category;
@@ -48,10 +48,9 @@ public class EventServiceImpl implements EventService {
             throw new RequestException("Время начала события не может быть раньше, чем через 2 часа");
         }
         if (eventDto.getParticipantLimit() == null) eventDto.setParticipantLimit(0);
-        if (!eventDto.isRequestModeration()) eventDto.setRequestModeration(true);
+        if (eventDto.getRequestModeration() == null) eventDto.setRequestModeration(true);
         Event event = EventMapper.mapToModel(eventDto, category, userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("Пользователь с id-" + userId + " не найден")));
-        event.setRequestModeration(eventDto.isRequestModeration());
         event.setCreationOn(LocalDateTime.now());
         event.setState(EventState.PENDING);
         return EventMapper.mapToFullDto(eventRepository.save(event), 0);
@@ -252,7 +251,7 @@ public class EventServiceImpl implements EventService {
                 new NotFoundException("Событие с id-" + eventId + " не найдено"));
         if (!Objects.equals(userId, event.getInitiator().getId()))
             throw new EventException("Пользователь не является инициатором текущего события");
-        if (event.getParticipantLimit() == 0 || (!event.isRequestModeration()))
+        if (event.getParticipantLimit() == 0 || (!event.getRequestModeration()))
             throw new EventException("Одобрение заявок данного события не требуется");
         if (participationRepository.getConfirmedRequests(eventId) >= event.getParticipantLimit())
             throw new DataIntegrityViolationException("Лимит по заявкам исчерпан");

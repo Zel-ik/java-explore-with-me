@@ -39,8 +39,7 @@ public class EventNewDto {
     @PositiveOrZero
     Integer participantLimit;
 
-    @Value("${some.key:true}")
-    boolean requestModeration;
+    Boolean requestModeration;
 
     @Size(min = 3, max = 120)
     String title;

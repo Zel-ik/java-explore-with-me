@@ -37,8 +37,7 @@ public class EventFullDto {
 
     LocalDateTime publishedOn;
 
-    @Value("${some.key:true}")
-    boolean requestModeration;
+    Boolean requestModeration;
 
     String state;
 

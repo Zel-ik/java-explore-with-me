@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.main_service.exceptions.NotFoundException;
+import ru.main_service.model.exceptions.NotFoundException;
 import ru.main_service.mappers.CategoryMapper;
 import ru.main_service.model.Category;
 import ru.main_service.model.dto.CategoryDto;

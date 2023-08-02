@@ -10,8 +10,8 @@ import ru.main_service.model.dto.RequestStatus;
 import ru.main_service.repositories.EventRepository;
 import ru.main_service.repositories.ParticipationRepository;
 import ru.main_service.repositories.UserRepository;
-import ru.main_service.exceptions.NotFoundException;
-import ru.main_service.exceptions.RequestException;
+import ru.main_service.model.exceptions.NotFoundException;
+import ru.main_service.model.exceptions.RequestException;
 import ru.main_service.mappers.ParticipationMapper;
 import ru.main_service.model.User;
 import ru.main_service.model.dto.EventState;
@@ -48,12 +48,15 @@ public class ParticipationServiceImpl implements ParticipationService {
             if (event.getParticipantLimit().equals(participationRepository
                     .getConfirmedRequests(eventId))) {
                 throw new DataIntegrityViolationException("Лимит заявок на событие исчерпан");
+            } else {
+                participationRepository
+                        .getConfirmedRequests(eventId);
             }
         }
         ParticipationRequestDto participationRequestDto = new ParticipationRequestDto();
         participationRequestDto.setRequester(userId);
         participationRequestDto.setEvent(eventId);
-        if (!event.isRequestModeration() || event.getParticipantLimit() == 0) {
+        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             participationRequestDto.setStatus(String.valueOf(RequestStatus.CONFIRMED));
         } else {
             participationRequestDto.setStatus(String.valueOf(RequestStatus.PENDING));

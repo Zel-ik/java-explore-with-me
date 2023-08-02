@@ -12,7 +12,7 @@ import ru.main_service.model.dto.CompilationUpdateDto;
 import ru.main_service.repositories.CompilationRepository;
 import ru.main_service.repositories.EventRepository;
 import ru.main_service.repositories.ParticipationRepository;
-import ru.main_service.exceptions.NotFoundException;
+import ru.main_service.model.exceptions.NotFoundException;
 import ru.main_service.mappers.EventMapper;
 import ru.main_service.model.Compilation;
 import ru.main_service.model.dto.CompilationDto;

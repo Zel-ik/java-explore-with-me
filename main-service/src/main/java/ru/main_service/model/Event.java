@@ -47,8 +47,7 @@ public class Event {
 
     LocalDateTime publishedOn;
 
-    @Value("${some.key:true}")
-    boolean requestModeration;
+    Boolean requestModeration;
 
     @Enumerated(EnumType.STRING)
     EventState state;

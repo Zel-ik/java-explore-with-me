@@ -1,4 +1,4 @@
-package ru.main_service.exceptions;
+package ru.main_service.model.exceptions;
 
 public class EventException extends RuntimeException {
 
