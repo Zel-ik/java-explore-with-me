@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
             throw new RequestException("Время начала события не может быть раньше, чем через 2 часа");
         }
         if (eventDto.getParticipantLimit() == null) eventDto.setParticipantLimit(0);
-        if(!eventDto.isRequestModeration()) eventDto.setRequestModeration(true);
+        if (!eventDto.isRequestModeration()) eventDto.setRequestModeration(true);
         Event event = EventMapper.mapToModel(eventDto, category, userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("Пользователь с id-" + userId + " не найден")));
         event.setRequestModeration(eventDto.isRequestModeration());
