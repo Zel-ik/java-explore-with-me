@@ -224,7 +224,7 @@ public class EventServiceImpl implements EventService {
         if (updateDto.getTitle() != null && !updateDto.getTitle().equals(updateEvent.getTitle())) {
             updateEvent.setTitle(updateDto.getTitle());
         }
-        if(updateDto.isPaid())updateEvent.setPaid(updateDto.isPaid());
+        if (updateDto.isPaid()) updateEvent.setPaid(updateDto.isPaid());
         Event event = eventRepository.save(updateEvent);
         return EventMapper.mapToFullDto(event,
                 participationRepository.getConfirmedRequests(event.getId()));
