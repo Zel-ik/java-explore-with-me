@@ -21,9 +21,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  stats-service:
+  stats-server:
     build: stat/stats-server
-    container_name: stat_service_container
+    container_name: stat_server_container
     ports:
       - "9090:9090"
     depends_on:
@@ -40,7 +40,7 @@ services:
       - "8080:8080"
     depends_on:
       - ewm-db
-      - stats-service
+      - stats-server
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm-db
       - POSTGRES_USER=postgres
